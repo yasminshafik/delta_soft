@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1 , shrink-to-fit=no"/>
+    <!-- style CSS-->
+    <link rel="stylesheet" href="assets/css/styleSheet.css">
+    <title>index</title>
+</head>
+<body>
+<section>
+<div class="grid-container">
+    <div class="row">
+        <!-- HEADER -->
+        <header class="main-width">
+            <a class="nav back-arrow" href="#"></a>
+            <div class="nav title">Stations</div>
+           <a class="nav  image"><img  src="assets/img/switch.png"> </a>
+        </header>
+    </div>
+    <!-- STATION PANEL -->
+    <div id="station-list" class="main-width">
+        <div class="station">
+            <div id="putin-fm" class="station-name">Putin FM</div>
+            <div class="frequency">66,6</div>
+            <div class="clearfix"></div>
+            <div class="vertical-line"></div>
+        </div>
+        <div class="station">
+            <div id="dribble-fm" class="station-name">Dribble FM</div>
+            <div class="frequency">101,2</div>
+            <div class="clearfix"></div>
+            <div class="vertical-line"></div>
+        </div>
+        <div class="station">
+            <div id="doge-fm" class="station-name">Doge FM</div>
+            <div class="frequency">99,4</div>
+            <div class="clearfix"></div>
+            <div class="vertical-line"></div>
+        </div>
+        <div class="station">
+            <div id="ballads-fm" class="station-name">Ballads FM</div>
+            <div class="frequency">87,1</div>
+            <div class="clearfix"></div>
+            <div class="vertical-line"></div>
+        </div>
+        <div class="station">
+            <div id="maximum-fm" class="station-name">Maximum FM</div>
+            <div class="frequency">142,2</div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <!-- STATION COVER -->
+    <div id="station-cover" class="main-width">
+        <a class="nav button dec" href="#"><div class="minus">-</div></a>
+        <div class="nav cover"></div>
+        <a class="nav button inc" href="#"><div class="plus">+</div></a>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="main-width">
+        <p class="info">Currently playing</p>
+        <p class="current-station"></p>
+    </footer>
+</div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $('.current-station').hide();
+        var $station = $('.station-name');
+        var $currentStation = $('.current-station');
+        var $lastClick = null;
+        var $stationCover = $('#station-cover');
+        var $link = $('a');
+
+        // Preventing default actions for <a>
+        $link.on('click', function(e){
+            e.preventDefault();
+        })
+
+        // Showing up station's cover
+        $station.on('click', function(e){
+            e.preventDefault();
+            var $stationName = $(this).html();
+            var $thisStation = $(this);
+            var $thisParent = $(this).parent();
+            var $newLastClick = $(event.target);
+            if (!$thisStation.is($lastClick)) {
+                if ($stationCover.is(":visible") === false) {
+                    $stationCover.detach().appendTo($thisParent).slideDown(300)
+                } else {
+                    $stationCover.slideUp(300, function() {
+                        $stationCover.detach().appendTo($thisParent).slideDown(300)
+                    });
+                }
+            } else if ($thisStation.is($newLastClick)) {
+                $stationCover.slideToggle(300);
+            }
+            $lastClick = $newLastClick;
+
+            // Showing up clicked station's name in the footer
+            if ($currentStation.is(':empty')) {
+                $currentStation.html($stationName).fadeIn(300);
+            } else if (!$currentStation.is(':empty')) {
+                $currentStation.fadeOut(300, function() {
+                    $currentStation.html($stationName).fadeIn(300);
+                });
+            }
+
+        });
+    });
+
+</script>
+
+</body>
+</html>
